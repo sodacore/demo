@@ -32,12 +32,12 @@ export default class TodoApiController {
 		});
 	}
 
-	@Get('/')
+	@Get('/tasks')
 	public async list() {
 		return this.prisma.todos.findMany();
 	}
 
-	@Post('/')
+	@Post('/tasks')
 	public async create(@Body() body: { title: string, description?: string }) {
 		const createTodo = await this.prisma.todos.create({
 			data: {
@@ -49,14 +49,14 @@ export default class TodoApiController {
 		return createTodo;
 	}
 
-	@Get('/:id')
+	@Get('/tasks/:id')
 	public async get(@Params('id') id: number) {
 		return await this.prisma.todos.findUnique({
 			where: { id },
 		});
 	}
 
-	@Put('/:id')
+	@Put('/tasks/:id')
 	public async replace(@Params('id') id: number, @Body() body: { title: string, description?: string }) {
 		const todo = await this.prisma.todos.update({
 			where: { id },
@@ -72,7 +72,7 @@ export default class TodoApiController {
 		return todo;
 	}
 
-	@Patch('/:id')
+	@Patch('/tasks/:id')
 	public async update(@Params('id') id: number, @Body() body: { title?: string, description?: string, completed?: boolean }) {
 		const todo = await this.prisma.todos.update({
 			where: { id },
@@ -86,7 +86,7 @@ export default class TodoApiController {
 		return todo;
 	}
 
-	@Delete('/:id')
+	@Delete('/tasks/:id')
 	public async delete(@Params('id') id: number) {
 		const todo = await this.prisma.todos.delete({
 			where: { id },

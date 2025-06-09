@@ -39,7 +39,7 @@
 					</button>
 				</section>
 
-				<section v-if="canChat" class="messages">
+				<section v-if="canChat" ref="messagesElement" class="messages">
 					<ul>
 						<li
 							v-for="message in messages" :key="message.id"

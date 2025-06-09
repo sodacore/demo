@@ -1,4 +1,4 @@
-import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { createApp, ref, useTemplateRef, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 
 createApp({
 	setup() {
@@ -11,13 +11,14 @@ createApp({
 		const username = ref('');
 		const canChat = ref(false);
 		const view = ref('list'); // 'list' or 'create'
+		const messagesElement = useTemplateRef('messagesElement');
 
 		const toggleView = () => {
 			view.value = view.value === 'list' ? 'create' : 'list';
 		};
 
 		const createTask = async () => {
-			const response = await fetch('/api', {
+			const response = await fetch('/api/tasks', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ createApp({
 		};
 
 		const refreshTasks = async () => {
-			const response = await fetch('/api');
+			const response = await fetch('/api/tasks');
 			if (response.ok) {
 				tasks.value = await response.json();
 			}
@@ -51,7 +52,7 @@ createApp({
 		};
 
 		const toggleTask = async (task) => {
-			await fetch(`/api/${task.id}`, {
+			await fetch(`/api/tasks/${task.id}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ createApp({
 		}
 
 		const deleteTask = async (task) => {
-			await fetch(`/api/${task.id}`, {
+			await fetch(`/api/tasks/${task.id}`, {
 				method: 'DELETE',
 			});
 		};
@@ -74,6 +75,7 @@ createApp({
 				userCount.value = message.context.count;
 			} else if (message.command === 'message') {
 				messages.value.push(message.context);
+				messagesElement.value.scrollTop = messagesElement.value.scrollHeight;
 			}
 		};
 
@@ -91,6 +93,7 @@ createApp({
 			window.$ws.send(JSON.stringify(packet));
 			messages.value.push(packet.context);
 			message.value = '';
+			messagesElement.value.scrollTop = messagesElement.value.scrollHeight;
 		};
 
 		const setUsername = () => {
@@ -99,6 +102,9 @@ createApp({
 				return;
 			}
 			canChat.value = true;
+			nextTick(() => {
+				messagesElement.value.scrollTop = messagesElement.value.scrollHeight;
+			});
 		};
 
 		return {
@@ -123,7 +129,7 @@ createApp({
 		};
 	},
 
-	created: function() {
+	created() {
 
 		// Initial fetch to populate tasks & messages.
 		this.refreshTasks();
@@ -134,7 +140,7 @@ createApp({
 		window.$ws.onmessage = this.handleMessage.bind(this);
 	},
 
-	beforeUnmount: function() {
+	beforeUnmount() {
 		if (window.$ws) window.$ws.close();
 	},
 }).mount('#app');

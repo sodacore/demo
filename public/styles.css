@@ -251,6 +251,7 @@ input, textarea {
 	display: flex;
 	flex-direction: column;
 	padding: 10px;
+	overflow-anchor: auto;
 }
 
 .message {
@@ -261,6 +262,7 @@ input, textarea {
 	margin-bottom: 10px;
 	padding-top: 25px;
 	position: relative;
+	min-width: 100px;
 }
 
 .message.is-me {
