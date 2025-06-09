@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/styles.css" />
+		<script type="module" src="/main.js" defer></script>
+		<link rel="shortcut icon" type="image/png" href="/logo.png">
+		<title>_t(Tasks Demo)</title>
+	</head>
+
+	<body>
+		<div id="app" v-cloak>
+			<header>
+				<h1>
+					{{ view === 'create' ? '_t(Add Task)' : '_t(Tasks List)' }}
+				</h1>
+
+				<div class="controls">
+					<button :class="{ 'is-danger': view === 'create' }" @click="toggleView">
+						{{ view === 'create' ? '_t(Cancel)' : '_t(Add Task)' }}
+					</button>
+				</div>
+			</header>
+
+			<aside>
+				<section v-if="!canChat" class="username">
+					<h2>_t(Enter your username)</h2>
+
+					<input
+						type="text"
+						placeholder="_t(Username)..."
+						v-model="username"
+						@keyup.enter="setUsername"
+					/>
+
+					<button @click="setUsername">
+						_t(Start Chatting)
+					</button>
+				</section>
+
+				<section v-if="canChat" class="messages">
+					<ul>
+						<li
+							v-for="message in messages" :key="message.id"
+							class="message"
+							:class="{ 'is-me': message.username === username }"
+						>
+							<span class="user">~ {{ message.username }}</span>
+							<span class="text">{{ message.message }}</span>
+						</li>
+					</ul>
+				</section>
+
+				<section v-if="canChat" class="send">
+					<input
+						type="text"
+						placeholder="_t(Type a message)..."
+						v-model="message"
+						@keyup.enter="sendMessage"
+					/>
+
+					<button @click="sendMessage">
+						➤
+					</button>
+				</section>
+			</aside>
+
+			<main>
+				<section v-if="view === 'list'" class="tasks">
+					<ul>
+						<li v-for="task in tasks" :key="task.id">
+							<h3 class="name" :title="task.title">
+								{{ task.title.length > 50 ? `${task.title.substring(0, 47)}...` : task.title }}
+							</h3>
+
+							<p class="desc" :title="task.description">
+								{{ task.description.length > 150 ? `${task.description.substring(0, 147)}...` : task.description }}
+							</p>
+
+							<div class="actions">
+								<button class="is-danger" @click="deleteTask(task)">
+									_t(Delete Task)
+								</button>
+
+								<button :class="[task.completed ? 'is-warning' : 'is-success']" @click="toggleTask(task)">
+									{{ task.completed ? '_t(Mark as Incomplete)' : '_t(Mark as Complete)' }}
+								</button>
+							</div>
+						</li>
+					</ul>
+				</section>
+
+				<section v-if="view === 'create'" class="create">
+					<div class="input-group">
+						<label for="task-title">
+							_t(Title)
+						</label>
+
+						<input
+							id="task-title"
+							type="text"
+							placeholder="_t(Task title)..."
+							v-model="taskTitle"
+						/>
+					</div>
+
+					<div class="input-group">
+						<label for="task-description">
+							_t(Description)
+						</label>
+
+						<textarea
+							id="task-description"
+							rows="12"
+							placeholder="_t(Task description)..."
+							v-model="taskDescription"
+						></textarea>
+					</div>
+
+					<button class="info" @click="createTask">_t(Create Task)</button>
+				</section>
+			</main>
+
+			<footer>
+				<p>_t(Connected): {{ userCount }}</p>
+			</footer>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+{
+	"name": "demo",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"@sodacore/core": "^0.3.31",
+		"@sodacore/di": "^0.3.31",
+		"@sodacore/discord": "^0.3.31",
+		"@sodacore/http": "^0.3.31",
+		"@sodacore/i18n": "^0.3.31",
+		"@sodacore/prisma": "^0.3.31",
+		"@sodacore/ws": "^0.3.31"
+	},
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "SODACORE_ENV=dev bun run ./src/main.ts",
+		"start": "SODACORE_ENV=prod bun run ./dist/main.js",
+		"build": "rm -rf ./dist && bun tsc --project ./tsconfig.json"
+	}
+}
