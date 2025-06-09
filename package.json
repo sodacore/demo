@@ -10,13 +10,13 @@
 		"typescript": "^5.8.3"
 	},
 	"dependencies": {
-		"@sodacore/core": "^0.3.31",
-		"@sodacore/di": "^0.3.31",
-		"@sodacore/discord": "^0.3.31",
-		"@sodacore/http": "^0.3.31",
-		"@sodacore/i18n": "^0.3.31",
-		"@sodacore/prisma": "^0.3.31",
-		"@sodacore/ws": "^0.3.31"
+		"@sodacore/core": "^0.3.32",
+		"@sodacore/di": "^0.3.32",
+		"@sodacore/discord": "^0.3.32",
+		"@sodacore/http": "^0.3.32",
+		"@sodacore/i18n": "^0.3.32",
+		"@sodacore/prisma": "^0.3.32",
+		"@sodacore/ws": "^0.3.32"
 	},
 	"version": "0.0.0",
 	"scripts": {

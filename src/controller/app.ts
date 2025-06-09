@@ -8,8 +8,6 @@ import { I18nProvider } from '@sodacore/i18n';
 export default class TodoController {
 	@Inject() private readonly translator!: I18nProvider;
 	private readonly basePath = resolve(process.cwd(), './public');
-	private readonly translationTagRegex = /_t\((.*?)\)/gi;
-	private readonly translationTagQueryRegex = /^\_t\((.*)\)$/;
 
 	@Get('/')
 	public async index(
@@ -26,7 +24,7 @@ export default class TodoController {
 		const availableLanguageCode = locale || this.translator.getAvailableTranslation(acceptLanguage) || 'en-GB';
 
 		// Translate the content (or strip the _t() tags)
-		const translatedContent = this.autoTranslate(fileContent, availableLanguageCode);
+		const translatedContent = this.translator.autoTranslate(fileContent, availableLanguageCode);
 
 		// Return the translated content.
 		return new Response(translatedContent, {
@@ -47,27 +45,5 @@ export default class TodoController {
 			return new Response('Not Found', { status: 404 });
 		}
 		return new Response(assetFile);
-	}
-
-	private autoTranslate(query: string, languageCode: string) {
-
-		// Get the data.
-		let data = String(query);
-
-		// Get the matches.
-		const matches = data.match(this.translationTagRegex);
-		if (!matches) return data;
-
-		// Loop each match.
-		matches.forEach(match => {
-			const text = match.replace(this.translationTagQueryRegex, '$1').trim();
-			const translated = languageCode
-				? this.translator.translate(text, languageCode.toLowerCase(), text)
-				: text;
-			data = data.replaceAll(match, translated);
-		});
-
-		// Return the translated text.
-		return data;
 	}
 }
