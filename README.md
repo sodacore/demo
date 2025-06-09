@@ -38,7 +38,7 @@ bun install
 
 4. Setup your environment variables.
 ```bash
-cp .env.example .env
+cp env.template .env
 ```
 > _Then insert your variables into the `.env` file._
 
@@ -58,3 +58,7 @@ And then you can run the project with:
 ```bash
 bun start
 ```
+
+### Learn More
+
+Read our [documentation](https://sodacore.dev/docs) to learn more about the framework and how to create your own projects using it.
