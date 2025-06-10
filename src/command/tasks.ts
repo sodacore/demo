@@ -47,8 +47,8 @@ import { ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 
 					option
 						.setName('id')
 						.setDescription('The ID of the task to delete.')
-						.setRequired(true),
-						// .setAutocomplete(true),
+						.setRequired(true)
+						.setAutocomplete(true),
 				),
 		),
 )
@@ -134,8 +134,23 @@ export class TaskCommand {
 	}
 
 	@On.SubCommand('delete')
-	public async onDelete() {
-		//
+	public async onDelete(
+		@Interaction() interaction: ChatInputCommandInteraction,
+	) {
+		const id = interaction.options.getNumber('id', true);
+		const task = await this.prisma.todos.findUnique({
+			where: { id },
+		});
+
+		if (!task) {
+			return interaction.reply({ content: `Task with ID ${id} not found.`, flags: MessageFlags.Ephemeral });
+		}
+
+		await this.prisma.todos.delete({
+			where: { id },
+		});
+
+		return interaction.reply({ content: `Task with ID ${id} has been deleted.`, flags: MessageFlags.Ephemeral });
 	}
 
 	@On.Autocomplete('id', 'view')
