@@ -7,16 +7,17 @@
 		"@types/bun": "latest"
 	},
 	"peerDependencies": {
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.2"
 	},
 	"dependencies": {
-		"@sodacore/core": "^0.3.32",
-		"@sodacore/di": "^0.3.32",
-		"@sodacore/discord": "^0.3.32",
-		"@sodacore/http": "^0.3.32",
-		"@sodacore/i18n": "^0.3.32",
-		"@sodacore/prisma": "^0.3.32",
-		"@sodacore/ws": "^0.3.32"
+		"@sodacore/core": "^0.3.34",
+		"@sodacore/di": "^0.3.34",
+		"@sodacore/discord": "^0.3.34",
+		"@sodacore/http": "^0.3.34",
+		"@sodacore/i18n": "^0.3.34",
+		"@sodacore/prisma": "^0.3.34",
+		"@sodacore/ws": "^0.3.34",
+		"discord.js": "^14.22.1"
 	},
 	"version": "0.0.0",
 	"scripts": {

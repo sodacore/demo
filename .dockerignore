@@ -1,0 +1,7 @@
+.vscode
+src
+.env
+Dockerfile
+env.template
+README.md
+tsconfig.json

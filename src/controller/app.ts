@@ -21,10 +21,10 @@ export default class TodoController {
 
 		// Check available locale.
 		const acceptLanguage: string = request.headers.get('accept-language') ?? 'en-GB';
-		const availableLanguageCode = locale || this.translator.getAvailableTranslation(acceptLanguage) || 'en-GB';
+		const bestLocale = locale || await this.translator.getBestLocale(acceptLanguage) || 'en-GB';
 
 		// Translate the content (or strip the _t() tags)
-		const translatedContent = this.translator.autoTranslate(fileContent, availableLanguageCode);
+		const translatedContent = await this.translator.autoTranslate(fileContent, bestLocale);
 
 		// Return the translated content.
 		return new Response(translatedContent, {
